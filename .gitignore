@@ -1,1 +1,7 @@
 .env
+.vscode
+__pycache__
+*.log
+db_index.faiss
+db_index.pkl
+desktop.ini
