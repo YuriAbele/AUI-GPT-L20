@@ -1,0 +1,12 @@
+﻿services:
+  bot:
+    build:
+      context: . # где находится Dockerfile
+      dockerfile: Dockerfile # Явно указываем Dockerfile
+    image: aui_gpt_l20_bot:v1
+    container_name: aui_gpt_l20_bot
+    environment:
+      - PYTHONUNBUFFERED=1 # Для отображения логов в реальном времени
+    volumes:
+      - /proj/aui_gpt_l20_bot:/proj/aui_gpt_l20_bot
+    restart: unless-stopped
