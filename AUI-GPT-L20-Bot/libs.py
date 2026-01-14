@@ -8,6 +8,7 @@ from openai import AsyncOpenAI
 from dotenv import load_dotenv
 import os
 
+import config
 
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
@@ -74,6 +75,21 @@ async def answer_db_index(system,            # системный промпт
          f"База знаний по ТЕХНИЧЕСКОМУ РЕГЛАМЕНТУ ТАМОЖЕННОГО СОЮЗА 'О БЕЗОПАСНОСТИ ЖЕЛЕЗНОДОРОЖНОГО ПОДВИЖНОГО СОСТАВА' \
          с информацией для ответа пользователю: \n{message_content} \n\n{user_query}."}]
     response = await AsyncOpenAI().chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=temp)
+    return response.choices[0].message.content
+
+# Запрос к АИ
+async def ask_ai(system_prompt,     # системный промпт
+                    user_query,        # запрос пользователя
+                    model='gpt-4o-mini',
+                    temp=0.1):
+    messages = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_query}]
+    client = AsyncOpenAI(api_key=config.OPENAI_API_KEY)
+    response = await client.chat.completions.create(
         model=model,
         messages=messages,
         temperature=temp)

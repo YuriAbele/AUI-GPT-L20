@@ -1,22 +1,21 @@
 import logging
 import asyncio
 from aiogram import Bot, Dispatcher
-import os
-from dotenv import load_dotenv
+#from aiogram.types import BotCommand
+
+import config
 import handlers
 
-
 # Логирование
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    handlers=[logging.FileHandler('bot.log'),
-                              logging.StreamHandler()])
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler('bot.log'),
+    logging.StreamHandler()])
 
-load_dotenv()
-bot = Bot(token=os.getenv('TELEGRAM_TOKEN'))
+bot = Bot(token=config.TELEGRAM_TOKEN)
 dp = Dispatcher()
 dp.include_routers(handlers.router,)
-
 
 async def main():
     try:
